@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer, useState} from 'react';
+import React, { useReducer } from 'react';
 import Task from "../components/Task";
 
 const allTasks = {
@@ -28,14 +28,19 @@ const allTasks = {
 }
 
 function reducer(state, action) {
-
+    switch (action.type){
+        case "delete_task" : {
+            return{
+                ...state,
+                tasks: state.tasks.filter(task => task !== action.payload)
+            }
+        }
+    }
 }
 
 const Home = () => {
 
     const [state, dispatch] = useReducer(reducer, allTasks);
-
-    console.log(state)
 
     return(
         <div className="home-container">
@@ -46,7 +51,11 @@ const Home = () => {
                 {
                     state.tasks.map((task, idx) => {
                         return(
-                            <Task key={idx} data={task} />
+                            <Task
+                                key={idx}
+                                data={task}
+                                delete={() => dispatch({ type: "delete_task", payload: task})}
+                            />
                         )
                     })
                 }

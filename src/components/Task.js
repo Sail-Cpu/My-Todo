@@ -12,7 +12,8 @@ const Task = (props) => {
             <div className="task-container-content">
                 <h2>{name}</h2>
                 <div className="task-bottom">
-                    <button>Delete</button>
+                    <span>{new Date(date)}</span>
+                    <button onClick={props.delete}>Delete</button>
                 </div>
             </div>
         </div>
