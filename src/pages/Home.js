@@ -21,7 +21,7 @@ const allTasks = {
             "id": "3",
             "name": "allez au sport",
             "isCheck": false,
-            "date": "2024-01-02",
+            "date": "2024-02-02",
             "statut": "ToDo"
         }
     ]
@@ -35,6 +35,22 @@ function reducer(state, action) {
                 tasks: state.tasks.filter(task => task !== action.payload)
             }
         }
+        case "check_task" : {
+            return{
+                ...state,
+                tasks: state.tasks.map(task => action.payload === task ? {
+                    ...task,
+                    isCheck: !task.isCheck
+                } : task)
+            }
+        }
+        case "delete_all_check_tasks" : {
+            return{
+                ...state,
+                tasks: state.tasks.filter(task => !task.isCheck)
+            }
+        }
+        default: return state;
     }
 }
 
@@ -42,10 +58,15 @@ const Home = () => {
 
     const [state, dispatch] = useReducer(reducer, allTasks);
 
+    console.log(state);
+
     return(
         <div className="home-container">
             <div className="home-title-container">
                 <h1>Tasks</h1>
+            </div>
+            <div className="home-button-action">
+                <button onClick={() => dispatch({type: "delete_all_check_tasks"})}>Delete all check Tasks</button>
             </div>
             <div className="tasks-list">
                 {
@@ -55,6 +76,7 @@ const Home = () => {
                                 key={idx}
                                 data={task}
                                 delete={() => dispatch({ type: "delete_task", payload: task})}
+                                check={() => dispatch({ type: "check_task", payload: task})}
                             />
                         )
                     })
