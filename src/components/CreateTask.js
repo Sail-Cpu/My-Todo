@@ -4,7 +4,9 @@ const CreateTask = (props) => {
 
     function handleSubmit(e){
         e.preventDefault();
-        props.addTodo(new FormData(e.target).get('title'), new FormData(e.target).get('date'))
+        const formData = new FormData(e.target);
+        props.addTodo(formData.get('title'), formData.get('date'), formData.get('statut'));
+        e.target.reset();
     }
 
     return(
@@ -15,7 +17,7 @@ const CreateTask = (props) => {
             <form className="task-container-content" onSubmit={(e) => handleSubmit(e)}>
                 <div className="task-title">
                     <input type="text" name="title"/>
-                    <select>
+                    <select name="statut">
                         <option value="ToDo">ToDo</option>
                         <option value="InProgress">InProgress</option>
                         <option value="Done">Done</option>

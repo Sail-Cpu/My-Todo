@@ -74,15 +74,14 @@ function reducer(state, action) {
             return {
                 ...state,
                 tasks: [
-                    ...state.tasks,
                     {
                         "id": "3",
                         "name": action.title,
                         "isCheck": false,
                         "date": action.date,
-                        "statut": "ToDo"
-                    }
-
+                        "statut": action.statut
+                    },
+                    ...state.tasks
                 ]
             }
         }
@@ -96,7 +95,7 @@ const Home = () => {
 
     const [state, dispatch] = useReducer(reducer, { filter: "all", tasks: allTasks });
 
-    const visibleTask = state.filter !== "all" ? state.tasks.filter(task => state.filter === task.statut).reverse() : state.tasks.reverse()
+    const visibleTask = state.filter !== "all" ? state.tasks.filter(task => state.filter === task.statut) : state.tasks
 
     return(
         <div className="home-container">
@@ -120,7 +119,7 @@ const Home = () => {
             </div>
             <div className="tasks-list">
                 {createTask &&
-                    <CreateTask addTodo={(title, date) => dispatch({ type: "add_task", title: title, date: date})}/>
+                    <CreateTask addTodo={(title, date, statut) => dispatch({ type: "add_task", title, date, statut})}/>
                 }
                 {
                     visibleTask.map((task, idx) => {
