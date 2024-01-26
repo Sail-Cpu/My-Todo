@@ -2,7 +2,7 @@ import React from 'react';
 
 const Task = (props) => {
 
-    const {name, isCheck, date} = props.data;
+    const {name, isCheck, date, statut} = props.data;
 
     return(
         <div className="task-container">
@@ -10,7 +10,14 @@ const Task = (props) => {
                 <input type="checkbox" onChange={props.check} checked={isCheck}/>
             </div>
             <div className="task-container-content">
-                <h2>{name}</h2>
+                <div className="task-title">
+                    <h2>{name}</h2>
+                    <select value={statut} onChange={(e) => props.changeStatut(e)}>
+                        <option value="ToDo">ToDo</option>
+                        <option value="InProgress">InProgress</option>
+                        <option value="Done">Done</option>
+                    </select>
+                </div>
                 <div className="task-bottom">
                     <span style={{ color: new Date(date) < new Date() ? 'red' : 'green' }}>
                         {date.toLocaleString()}

@@ -8,7 +8,7 @@ const allTasks = {
             "name": "faire les courses",
             "isCheck": false,
             "date": "2024-01-10",
-            "statut": "inProgress"
+            "statut": "InProgress"
         },
         {
             "id": "2",
@@ -56,6 +56,15 @@ function reducer(state, action) {
                 tasks: state.tasks.map(task => ( {...task, isCheck: true} ))
             }
         }
+        case "change_statut" : {
+            return {
+                ...state,
+                tasks: state.tasks.map(task => action.payload === task ? {
+                    ...task,
+                    statut: action.statut
+                } : task)
+            }
+        }
         default: return state;
     }
 }
@@ -84,6 +93,7 @@ const Home = () => {
                                 data={task}
                                 delete={() => dispatch({ type: "delete_task", payload: task})}
                                 check={() => dispatch({ type: "check_task", payload: task})}
+                                changeStatut={(e) => dispatch({ type: "change_statut", payload: task, statut: e.target.value})}
                             />
                         )
                     })
