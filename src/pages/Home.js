@@ -1,5 +1,6 @@
-import React, { useReducer } from 'react';
+import React, {useReducer, useState} from 'react';
 import Task from "../components/Task";
+import CreateTask from "../components/CreateTask";
 
 const allTasks = [
     {
@@ -69,16 +70,33 @@ function reducer(state, action) {
                 filter: action.statut
             }
         }
+        case "add_task" : {
+            return {
+                ...state,
+                tasks: [
+                    ...state.tasks,
+                    {
+                        "id": "3",
+                        "name": action.title,
+                        "isCheck": false,
+                        "date": action.date,
+                        "statut": "ToDo"
+                    }
 
+                ]
+            }
+        }
         default: return state;
     }
 }
 
 const Home = () => {
 
+    const [createTask, setCreateTask] = useState(false);
+
     const [state, dispatch] = useReducer(reducer, { filter: "all", tasks: allTasks });
 
-    const visibleTask = state.filter !== "all" ? state.tasks.filter(task => state.filter === task.statut) : state.tasks
+    const visibleTask = state.filter !== "all" ? state.tasks.filter(task => state.filter === task.statut).reverse() : state.tasks.reverse()
 
     return(
         <div className="home-container">
@@ -89,6 +107,7 @@ const Home = () => {
                 <div className="home-button-left">
                     <button onClick={() => dispatch({type: "delete_all_check_tasks"})}>Delete all check Tasks</button>
                     <button onClick={() => dispatch({type: "check_all_tasks"})}>Check all Tasks</button>
+                    <button onClick={() => setCreateTask(!createTask)}>Add Task</button>
                 </div>
                 <div className="home-button-right">
                     <select onChange={(e) => dispatch( {type: "filter_statut", statut: e.target.value } )}>
@@ -100,6 +119,9 @@ const Home = () => {
                 </div>
             </div>
             <div className="tasks-list">
+                {createTask &&
+                    <CreateTask addTodo={(title, date) => dispatch({ type: "add_task", title: title, date: date})}/>
+                }
                 {
                     visibleTask.map((task, idx) => {
                         return(
