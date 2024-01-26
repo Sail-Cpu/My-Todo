@@ -4,21 +4,21 @@ import CreateTask from "../components/CreateTask";
 
 const allTasks = [
     {
-            "id": "1",
+            "id": 1,
             "name": "faire les courses",
             "isCheck": false,
             "date": "2024-01-10",
             "statut": "InProgress"
     },
     {
-            "id": "2",
+            "id": 2,
             "name": "faire la vaiselle",
             "isCheck": false,
             "date": "2024-01-05",
             "statut": "ToDo"
     },
     {
-            "id": "3",
+            "id": 3,
             "name": "allez au sport",
             "isCheck": false,
             "date": "2024-02-02",
@@ -75,7 +75,7 @@ function reducer(state, action) {
                 ...state,
                 tasks: [
                     {
-                        "id": "3",
+                        "id": state.tasks.length + 1,
                         "name": action.title,
                         "isCheck": false,
                         "date": action.date,
@@ -96,6 +96,8 @@ const Home = () => {
     const [state, dispatch] = useReducer(reducer, { filter: "all", tasks: allTasks });
 
     const visibleTask = state.filter !== "all" ? state.tasks.filter(task => state.filter === task.statut) : state.tasks
+
+    console.log(state.tasks)
 
     return(
         <div className="home-container">
