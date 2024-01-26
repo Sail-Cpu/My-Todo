@@ -1,0 +1,38 @@
+.task-container{
+  padding: 10px 10px;
+  border: 1px solid black;
+  width: 100%;
+  border-radius: 8px;
+  display: flex;
+  height: 80px;
+  .task-container-left{
+    input{
+      transform: scale(1.5);
+    }
+  }
+  .task-container-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-left: 20px;
+    width: 100%;
+    h2{
+      margin: 0;
+    }
+    .task-bottom{
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+      button{
+        padding: 5px 10px;
+        background-color: blue;
+        font-size: 14px;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    }
+  }
+  margin-bottom: 20px;
+}

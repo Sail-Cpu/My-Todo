@@ -1,0 +1,5 @@
+@import "settings.scss";
+/* Pages */
+@import "./pages/home.scss";
+/* Components */
+@import "./components/task.scss";
