@@ -108,7 +108,7 @@ const Home = () => {
                 <div className="home-button-left">
                     <button onClick={() => dispatch({type: "delete_all_check_tasks"})}>Delete all check Tasks</button>
                     <button onClick={() => dispatch({type: "check_all_tasks"})}>Check all Tasks</button>
-                    <button onClick={() => setCreateTask(!createTask)}>Add Task</button>
+                    <button style={{backgroundColor: createTask && 'blue' , color: createTask && 'white'}} onClick={() => setCreateTask(!createTask)}>Add Task</button>
                 </div>
                 <div className="home-button-right">
                     <select onChange={(e) => dispatch( {type: "filter_statut", statut: e.target.value } )}>

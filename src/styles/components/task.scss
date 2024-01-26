@@ -28,10 +28,20 @@
       justify-content: space-between;
       align-items: center;
       width: 100%;
+      div{
+        display: flex;
+        align-items: center;
+        svg{
+          font-size: 18px;
+        }
+        span{
+          font-size: 13px;
+        }
+      }
       button{
         padding: 5px 10px;
         background-color: blue;
-        font-size: 14px;
+        font-size: 12px;
         color: #fff;
         border: none;
         border-radius: 5px;
