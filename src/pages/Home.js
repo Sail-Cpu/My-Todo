@@ -38,16 +38,22 @@ function reducer(state, action) {
         case "check_task" : {
             return{
                 ...state,
-                tasks: state.tasks.map(task => action.payload === task ? {
+                tasks: state.tasks.map(task => action.payload === task ? ({
                     ...task,
                     isCheck: !task.isCheck
-                } : task)
+                }): task)
             }
         }
         case "delete_all_check_tasks" : {
             return{
                 ...state,
                 tasks: state.tasks.filter(task => !task.isCheck)
+            }
+        }
+        case "check_all_tasks" : {
+            return {
+                ...state,
+                tasks: state.tasks.map(task => ( {...task, isCheck: true} ))
             }
         }
         default: return state;
@@ -67,6 +73,7 @@ const Home = () => {
             </div>
             <div className="home-button-action">
                 <button onClick={() => dispatch({type: "delete_all_check_tasks"})}>Delete all check Tasks</button>
+                <button onClick={() => dispatch({type: "check_all_tasks"})}>Check all Tasks</button>
             </div>
             <div className="tasks-list">
                 {
