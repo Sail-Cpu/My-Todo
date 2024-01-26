@@ -1,31 +1,29 @@
 import React, { useReducer } from 'react';
 import Task from "../components/Task";
 
-const allTasks = {
-    tasks: [
-        {
+const allTasks = [
+    {
             "id": "1",
             "name": "faire les courses",
             "isCheck": false,
             "date": "2024-01-10",
             "statut": "InProgress"
-        },
-        {
+    },
+    {
             "id": "2",
             "name": "faire la vaiselle",
             "isCheck": false,
             "date": "2024-01-05",
             "statut": "ToDo"
-        },
-        {
+    },
+    {
             "id": "3",
             "name": "allez au sport",
             "isCheck": false,
             "date": "2024-02-02",
             "statut": "ToDo"
-        }
+    }
     ]
-}
 
 function reducer(state, action) {
     switch (action.type){
@@ -65,15 +63,22 @@ function reducer(state, action) {
                 } : task)
             }
         }
+        case "filter_statut" : {
+            return {
+                ...state,
+                filter: action.statut
+            }
+        }
+
         default: return state;
     }
 }
 
 const Home = () => {
 
-    const [state, dispatch] = useReducer(reducer, allTasks);
+    const [state, dispatch] = useReducer(reducer, { filter: "all", tasks: allTasks });
 
-    console.log(state);
+    const visibleTask = state.filter !== "all" ? state.tasks.filter(task => state.filter === task.statut) : state.tasks
 
     return(
         <div className="home-container">
@@ -81,12 +86,22 @@ const Home = () => {
                 <h1>Tasks</h1>
             </div>
             <div className="home-button-action">
-                <button onClick={() => dispatch({type: "delete_all_check_tasks"})}>Delete all check Tasks</button>
-                <button onClick={() => dispatch({type: "check_all_tasks"})}>Check all Tasks</button>
+                <div className="home-button-left">
+                    <button onClick={() => dispatch({type: "delete_all_check_tasks"})}>Delete all check Tasks</button>
+                    <button onClick={() => dispatch({type: "check_all_tasks"})}>Check all Tasks</button>
+                </div>
+                <div className="home-button-right">
+                    <select onChange={(e) => dispatch( {type: "filter_statut", statut: e.target.value } )}>
+                        <option value="all">All</option>
+                        <option value="ToDo">ToDo</option>
+                        <option value="InProgress">InProgress</option>
+                        <option value="Done">Done</option>
+                    </select>
+                </div>
             </div>
             <div className="tasks-list">
                 {
-                    state.tasks.map((task, idx) => {
+                    visibleTask.map((task, idx) => {
                         return(
                             <Task
                                 key={idx}
