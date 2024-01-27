@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 //Components
 import Colors, {allColors} from "./Colors";
+import {toast} from "sonner";
 
 const CreateTask = (props) => {
 
@@ -9,8 +10,20 @@ const CreateTask = (props) => {
     function handleSubmit(e){
         e.preventDefault();
         const formData = new FormData(e.target);
-        props.addTodo(formData.get('title'), formData.get('date'), formData.get('statut'), formData.get('bonus'), color);
+        if(formData.get('date').length === 0){
+            toast.error('The task could not be created', {
+                description: 'A task must have a due date',
+            })
+            return;
+        }
+        if(formData.get('bonus').length > 0){
+            props.addTodo(formData.get('title'), formData.get('date'), formData.get('statut'), formData.get('bonus'), color);
+        }else{
+            props.addTodo(formData.get('title'), formData.get('date'), formData.get('statut'));
+        }
+        toast.success('Task has been created');
         e.target.reset();
+        setColor(allColors[0]);
     }
 
     return(

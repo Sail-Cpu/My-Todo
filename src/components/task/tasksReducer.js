@@ -69,6 +69,12 @@ function reducer(state, action) {
             }
         }
         case addTask : {
+            const bonus = action?.bonus ? {
+                "bonus": {
+                    "text": action.bonus,
+                    "color": action.color
+                }
+            } : ""
             return {
                 ...state,
                 tasks: [
@@ -78,10 +84,7 @@ function reducer(state, action) {
                         "isCheck": false,
                         "date": action.date,
                         "statut": action.statut,
-                        "bonus": {
-                            "text": action.bonus,
-                            "color": action.color
-                        }
+                        bonus
                     },
                     ...state.tasks
                 ]

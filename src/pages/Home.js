@@ -4,7 +4,7 @@ import {useTodos} from "../components/task/tasksReducer";
 import Task from "../components/task/Task";
 import CreateTask from "../components/task/CreateTask";
 import TaskDone from "../components/task/TaskDone";
-
+import { Toaster } from 'sonner';
 const Home = () => {
 
     const [createTask, setCreateTask] = useState(false);
@@ -21,8 +21,11 @@ const Home = () => {
         filterStatut
     } = useTodos();
 
+    console.log(visibleTask)
+
     return(
         <div className="home-container">
+            <Toaster position="top-right" closeButton richColors/>
             <div className="home-title-container">
                 <h1>Tasks</h1>
             </div>
@@ -47,7 +50,7 @@ const Home = () => {
             </div>
             <div className="tasks-list">
                 {createTask &&
-                    <CreateTask addTodo={(title, date, statut, bonus, color) => addTask(title, date, statut, bonus, color)}/>
+                    <CreateTask addTodo={addTask}/>
                 }
                 {
                     visibleTask.map((task, idx) => {

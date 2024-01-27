@@ -59,12 +59,12 @@ const Task = (props) => {
                     </div>
                     <button onClick={props.delete}>Delete</button>
                 </div>
-                {bonus &&
+                {bonus?.bonus &&
                     <div className="task-bonus">
                         <div className='bonus'>
-                            <div className="bonus-back" style={{backgroundColor: bonus?.color}}></div>
-                            <div className='bonus-color' style={{backgroundColor: bonus?.color}}></div>
-                            <span style={{color: bonus?.color}}>{bonus?.text}</span>
+                            <div className="bonus-back" style={{backgroundColor: bonus.bonus.color}}></div>
+                            <div className='bonus-color' style={{backgroundColor: bonus.bonus.color}}></div>
+                            <span style={{color: bonus.bonus.color}}>{bonus.bonus.text}</span>
                         </div>
                     </div>
                 }
