@@ -37,7 +37,10 @@ function reducer(state, action) {
         case checkAllTasks : {
             return {
                 ...state,
-                tasks: state.tasks.map(task => ( {...task, isCheck: true} ))
+                tasks: state.tasks.map(task => task.statut === state.filter || state.filter === "all" ? {
+                    ...task,
+                    isCheck: true
+                } :  task)
             }
         }
         case changeStatut : {
