@@ -3,6 +3,7 @@ import {useTodos} from "../components/task/tasksReducer";
 //Components
 import Task from "../components/task/Task";
 import CreateTask from "../components/task/CreateTask";
+import TaskDone from "../components/task/TaskDone";
 
 const Home = () => {
 
@@ -12,6 +13,8 @@ const Home = () => {
         addTask,
         changeTaskStatut,
         checkAllTask,
+        deCheckAllTask,
+        allTaskIsCheck,
         checkTask,
         deleteAllCheckTask,
         deleteTask,
@@ -26,7 +29,11 @@ const Home = () => {
             <div className="home-button-action">
                 <div className="home-button-left">
                     <button onClick={() => deleteAllCheckTask()}>Delete all check Tasks</button>
-                    <button onClick={() => checkAllTask()}>Check all Tasks</button>
+                    {allTaskIsCheck ?
+                        <button onClick={() => deCheckAllTask()}>De Check all Tasks</button>
+                        :
+                        <button onClick={() => checkAllTask()}>Check all Tasks</button>
+                    }
                     <button style={{backgroundColor: createTask && 'blue' , color: createTask && 'white'}} onClick={() => setCreateTask(!createTask)}>Add Task</button>
                 </div>
                 <div className="home-button-right">
@@ -45,13 +52,33 @@ const Home = () => {
                 {
                     visibleTask.map((task, idx) => {
                         return(
-                            <Task
-                                key={idx}
-                                data={task}
-                                delete={() => deleteTask(task)}
-                                check={() => checkTask(task)}
-                                changeStatut={(e) => changeTaskStatut(e, task)}
-                            />
+                            <>
+                                {task.statut !== "Done" &&
+                                    <Task
+                                        key={idx}
+                                        data={task}
+                                        delete={() => deleteTask(task)}
+                                        check={() => checkTask(task)}
+                                        changeStatut={(e) => changeTaskStatut(e, task)}
+                                    />
+                                }
+                            </>
+                        )
+                    })
+                }
+                {
+                    visibleTask.map((task, idx) => {
+                        return(
+                            <>
+                                {task.statut === "Done" &&
+                                    <TaskDone
+                                        key={idx}
+                                        data={task}
+                                        check={() => checkTask(task)}
+                                        changeStatut={(e) => changeTaskStatut(e, task)}
+                                    />
+                                }
+                            </>
                         )
                     })
                 }

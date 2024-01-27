@@ -5,13 +5,14 @@ const allAction = {
     checkTask: "check_task",
     deleteAllCheckTask: "delete_all_check_tasks",
     checkAllTasks: "check_all_tasks",
+    deCheckAllTasks: "de_check_all_tasks",
     changeStatut: "change_statut",
     filterStatut: "filter_statut",
     addTask: "add_task"
 }
 
 function reducer(state, action) {
-    const {deleteTask, checkTask, deleteAllCheckTask, checkAllTasks, changeStatut, filterStatut, addTask} = allAction;
+    const {deleteTask, checkTask, deleteAllCheckTask, checkAllTasks, deCheckAllTasks, changeStatut, filterStatut, addTask} = allAction;
     switch (action.type){
         case deleteTask: {
             return{
@@ -40,6 +41,15 @@ function reducer(state, action) {
                 tasks: state.tasks.map(task => task.statut === state.filter || state.filter === "all" ? {
                     ...task,
                     isCheck: true
+                } :  task)
+            }
+        }
+        case deCheckAllTasks : {
+            return {
+                ...state,
+                tasks: state.tasks.map(task => task.statut === state.filter || state.filter === "all" ? {
+                    ...task,
+                    isCheck: false
                 } :  task)
             }
         }
@@ -82,7 +92,7 @@ function reducer(state, action) {
 }
 
 export function useTodos(){
-    const {deleteTask, checkTask, deleteAllCheckTask, checkAllTasks, changeStatut, filterStatut, addTask} = allAction;
+    const {deleteTask, checkTask, deleteAllCheckTask, checkAllTasks, deCheckAllTasks, changeStatut, filterStatut, addTask} = allAction;
 
     const [state, dispatch] = useReducer(reducer, {
         filter: "all",
@@ -113,10 +123,14 @@ export function useTodos(){
 
     const visibleTask = state.filter !== "all" ? state.tasks.filter(task => state.filter === task.statut) : state.tasks
 
+    const allTaskIsCheck = state.tasks.filter(task => task.isCheck === true).length === state.tasks.length;
+
     return{
         visibleTask: visibleTask,
+        allTaskIsCheck: allTaskIsCheck,
         deleteAllCheckTask: () => dispatch({type: deleteAllCheckTask}),
         checkAllTask: () => dispatch({type: checkAllTasks}),
+        deCheckAllTask: () => dispatch({type: deCheckAllTasks}),
         filterStatut: (e) => dispatch( {type: filterStatut, statut: e.target.value }),
         addTask: (title, date, statut, bonus, color) => dispatch({ type: addTask, title, date, statut, bonus, color}),
         deleteTask: (task) => dispatch({ type: deleteTask, payload: task}),
