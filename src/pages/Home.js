@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import {useTodos} from "../components/tasksReducer";
+import {useTodos} from "../components/task/tasksReducer";
 //Components
-import Task from "../components/Task";
-import CreateTask from "../components/CreateTask";
+import Task from "../components/task/Task";
+import CreateTask from "../components/task/CreateTask";
 
 const Home = () => {
 
@@ -40,7 +40,7 @@ const Home = () => {
             </div>
             <div className="tasks-list">
                 {createTask &&
-                    <CreateTask addTodo={(title, date, statut) => addTask(title, date, statut)}/>
+                    <CreateTask addTodo={(title, date, statut, bonus, color) => addTask(title, date, statut, bonus, color)}/>
                 }
                 {
                     visibleTask.map((task, idx) => {

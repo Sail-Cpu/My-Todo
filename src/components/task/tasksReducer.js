@@ -1,14 +1,25 @@
 import {useReducer} from "react";
 
+const allAction = {
+    deleteTask: "delete_task",
+    checkTask: "check_task",
+    deleteAllCheckTask: "delete_all_check_tasks",
+    checkAllTasks: "check_all_tasks",
+    changeStatut: "change_statut",
+    filterStatut: "filter_statut",
+    addTask: "add_task"
+}
+
 function reducer(state, action) {
+    const {deleteTask, checkTask, deleteAllCheckTask, checkAllTasks, changeStatut, filterStatut, addTask} = allAction;
     switch (action.type){
-        case "delete_task" : {
+        case deleteTask: {
             return{
                 ...state,
                 tasks: state.tasks.filter(task => task !== action.payload)
             }
         }
-        case "check_task" : {
+        case checkTask : {
             return{
                 ...state,
                 tasks: state.tasks.map(task => action.payload === task ? ({
@@ -17,19 +28,19 @@ function reducer(state, action) {
                 }): task)
             }
         }
-        case "delete_all_check_tasks" : {
+        case deleteAllCheckTask : {
             return{
                 ...state,
                 tasks: state.tasks.filter(task => !task.isCheck)
             }
         }
-        case "check_all_tasks" : {
+        case checkAllTasks : {
             return {
                 ...state,
                 tasks: state.tasks.map(task => ( {...task, isCheck: true} ))
             }
         }
-        case "change_statut" : {
+        case changeStatut : {
             return {
                 ...state,
                 tasks: state.tasks.map(task => action.payload === task ? {
@@ -38,13 +49,13 @@ function reducer(state, action) {
                 } : task)
             }
         }
-        case "filter_statut" : {
+        case filterStatut : {
             return {
                 ...state,
                 filter: action.statut
             }
         }
-        case "add_task" : {
+        case addTask : {
             return {
                 ...state,
                 tasks: [
@@ -53,7 +64,11 @@ function reducer(state, action) {
                         "name": action.title,
                         "isCheck": false,
                         "date": action.date,
-                        "statut": action.statut
+                        "statut": action.statut,
+                        "bonus": {
+                            "text": action.bonus,
+                            "color": action.color
+                        }
                     },
                     ...state.tasks
                 ]
@@ -64,6 +79,8 @@ function reducer(state, action) {
 }
 
 export function useTodos(){
+    const {deleteTask, checkTask, deleteAllCheckTask, checkAllTasks, changeStatut, filterStatut, addTask} = allAction;
+
     const [state, dispatch] = useReducer(reducer, {
         filter: "all",
         tasks: [
@@ -95,12 +112,12 @@ export function useTodos(){
 
     return{
         visibleTask: visibleTask,
-        deleteAllCheckTask: () => dispatch({type: "delete_all_check_tasks"}),
-        checkAllTask: () => dispatch({type: "check_all_tasks"}),
-        filterStatut: (e) => dispatch( {type: "filter_statut", statut: e.target.value }),
-        addTask: (title, date, statut) => dispatch({ type: "add_task", title, date, statut}),
-        deleteTask: (task) => dispatch({ type: "delete_task", payload: task}),
-        checkTask: (task) => dispatch({ type: "check_task", payload: task}),
-        changeTaskStatut: (e, task) => dispatch({ type: "change_statut", payload: task, statut: e.target.value})
+        deleteAllCheckTask: () => dispatch({type: deleteAllCheckTask}),
+        checkAllTask: () => dispatch({type: checkAllTasks}),
+        filterStatut: (e) => dispatch( {type: filterStatut, statut: e.target.value }),
+        addTask: (title, date, statut, bonus, color) => dispatch({ type: addTask, title, date, statut, bonus, color}),
+        deleteTask: (task) => dispatch({ type: deleteTask, payload: task}),
+        checkTask: (task) => dispatch({ type: checkTask, payload: task}),
+        changeTaskStatut: (e, task) => dispatch({ type: changeStatut, payload: task, statut: e.target.value})
     }
 }

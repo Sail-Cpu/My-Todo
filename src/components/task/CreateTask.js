@@ -1,11 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
+//Components
+import Colors, {allColors} from "./Colors";
 
 const CreateTask = (props) => {
+
+    const [color, setColor] = useState(allColors[0]);
 
     function handleSubmit(e){
         e.preventDefault();
         const formData = new FormData(e.target);
-        props.addTodo(formData.get('title'), formData.get('date'), formData.get('statut'));
+        props.addTodo(formData.get('title'), formData.get('date'), formData.get('statut'), formData.get('bonus'), color);
         e.target.reset();
     }
 
@@ -26,6 +30,10 @@ const CreateTask = (props) => {
                 <div className="task-bottom">
                     <input type="date" name="date"/>
                     <button type="submit">Submit</button>
+                </div>
+                <div className="task-bonus">
+                    <input type="text" name="bonus"/>
+                    <Colors color={color} setColor={setColor}/>
                 </div>
             </form>
         </div>

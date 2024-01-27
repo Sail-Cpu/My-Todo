@@ -4,7 +4,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
 const Task = (props) => {
 
-    const {name, isCheck, date, statut} = props.data;
+    const {name, isCheck, date, statut, bonus} = props.data;
 
     function isTomorrow(inputDate) {
         const currentDate = new Date();
@@ -15,15 +15,6 @@ const Task = (props) => {
         const formattedTomorrowDate = tomorrowDate.toISOString().split('T')[0];
 
         return formattedInputDate === formattedTomorrowDate;
-    }
-
-    function isToday(inputDate) {
-        const currentDate = new Date();
-
-        const formattedCurrentDate = currentDate.toISOString().split('T')[0];
-        const formattedInputDate = new Date(inputDate).toISOString().split('T')[0];
-
-        return formattedInputDate === formattedCurrentDate;
     }
 
     function reFormatDate() {
@@ -38,9 +29,6 @@ const Task = (props) => {
         } else if (isTomorrow(date)) {
             color = 'orange';
             text = 'Tomorrow';
-        } else if (isToday(date)) {
-            color = 'blue';
-            text = 'Today';
         }
 
         return (
@@ -71,6 +59,15 @@ const Task = (props) => {
                     </div>
                     <button onClick={props.delete}>Delete</button>
                 </div>
+                {bonus &&
+                    <div className="task-bonus">
+                        <div className='bonus'>
+                            <div className="bonus-back" style={{backgroundColor: bonus?.color}}></div>
+                            <div className='bonus-color' style={{backgroundColor: bonus?.color}}></div>
+                            <span style={{color: bonus?.color}}>{bonus?.text}</span>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
     )
