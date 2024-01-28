@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTodos } from "../components/task/tasksReducer";
 import Task from "../components/task/Task";
+import TaskDone from "../components/task/TaskDone";
 
 const Table = () => {
 
@@ -16,24 +17,43 @@ const Table = () => {
                 <h1>Table</h1>
             </div>
             <div className="table-content-container">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>ToDo</th>
-                        <th>InProgress</th>
-                        <th>Done</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                        {visibleTask.map((task, idx) => (
-                            <tr key={idx}>
-                                <td>{task.statut === "ToDo" && <Task data={task} delete={() => deleteTask(task)} check={() => checkTask(task)} changeStatut={(e) => changeTaskStatut(e, task)} />}</td>
-                                <td>{task.statut === "InProgress" && <Task data={task} delete={() => deleteTask(task)} check={() => checkTask(task)} changeStatut={(e) => changeTaskStatut(e, task)} />}</td>
-                                <td>{task.statut === "Done" && <Task data={task} delete={() => deleteTask(task)} check={() => checkTask(task)} changeStatut={(e) => changeTaskStatut(e, task)} />}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <div className="table-task-container">
+                    <div className="table-title">
+                        <h1>ToDo</h1>
+                    </div>
+                    <div className="all-tasks">
+                        {
+                            visibleTask.map((task, idx) => {
+                                return task.statut === "ToDo" &&  <Task key={idx} data={task} delete={() => deleteTask(task)} check={() => checkTask(task)} changeStatut={(e) => changeTaskStatut(e, task)}
+                                />
+                            })
+                        }
+                    </div>
+                </div>
+                <div className="table-task-container">
+                    <div className="table-title">
+                        <h1>InProgress</h1>
+                    </div>
+                    <div className="all-tasks">
+                        {
+                            visibleTask.map((task, idx) => {
+                                return task.statut === "InProgress" &&  <Task key={idx} data={task} delete={() => deleteTask(task)} check={() => checkTask(task)} changeStatut={(e) => changeTaskStatut(e, task)}/>
+                            })
+                        }
+                    </div>
+                </div>
+                <div className="table-task-container">
+                    <div className="table-title">
+                        <h1>Done</h1>
+                    </div>
+                    <div className="all-tasks">
+                        {
+                            visibleTask.map((task, idx) => {
+                                return task.statut === "Done" && <TaskDone key={idx} data={task} check={() => checkTask(task)} changeStatut={(e) => changeTaskStatut(e, task)}/>
+                            })
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     )

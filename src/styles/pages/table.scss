@@ -1,21 +1,27 @@
 .table-container{
   .table-content-container{
+    display: flex;
     margin-top: 10px;
     width: 100%;
-    table{
+    justify-content: space-between;
+
+    .table-title{
+      display: flex;
+      justify-content: center;
       width: 100%;
-      border: 2px solid black;
-      th{
-        border-left: 2px solid black;
-        border-right: 2px solid black;
-      }
-      td{
-        border-left: 2px solid black;
-        border-right: 2px solid black;
-        width: 33.33%;
-        margin: 0;
-        padding: 0 10px;
-      }
+      border-bottom: 2px solid #000;
+    }
+
+    .table-task-container{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 33.33%;
+      border: 2px solid #000;
+    }
+    .all-tasks{
+      padding: 10px;
+      width: 100%;
     }
   }
 }
