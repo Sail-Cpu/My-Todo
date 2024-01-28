@@ -1,6 +1,7 @@
 @import "settings.scss";
 /* Pages */
 @import "./pages/home.scss";
+@import "./pages/table.scss";
 /* Components */
 @import "./components/task.scss";
 @import "./components/nav-bar.scss";

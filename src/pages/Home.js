@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {useTodos} from "../components/task/tasksReducer";
+import { useTodos } from "../components/task/tasksReducer";
 //Components
 import Task from "../components/task/Task";
 import CreateTask from "../components/task/CreateTask";
@@ -24,9 +24,9 @@ const Home = () => {
     console.log(visibleTask)
 
     return(
-        <div className="home-container">
+        <div className="page home-container">
             <Toaster position="top-right" closeButton richColors/>
-            <div className="home-title-container">
+            <div className="page-title-container">
                 <h1>Tasks</h1>
             </div>
             <div className="home-button-action">

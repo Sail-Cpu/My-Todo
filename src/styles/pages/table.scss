@@ -1,0 +1,21 @@
+.table-container{
+  .table-content-container{
+    margin-top: 10px;
+    width: 100%;
+    table{
+      width: 100%;
+      border: 2px solid black;
+      th{
+        border-left: 2px solid black;
+        border-right: 2px solid black;
+      }
+      td{
+        border-left: 2px solid black;
+        border-right: 2px solid black;
+        width: 33.33%;
+        margin: 0;
+        padding: 0 10px;
+      }
+    }
+  }
+}
