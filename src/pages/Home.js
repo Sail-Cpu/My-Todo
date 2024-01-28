@@ -37,7 +37,7 @@ const Home = () => {
                         :
                         <button onClick={() => checkAllTask()}>Check all Tasks</button>
                     }
-                    <button style={{backgroundColor: createTask && 'blue' , color: createTask && 'white'}} onClick={() => setCreateTask(!createTask)}>Add Task</button>
+                    <button style={{backgroundColor: createTask && '#3b40d5' , color: createTask && 'white'}} onClick={() => setCreateTask(!createTask)}>Add Task</button>
                 </div>
                 <div className="home-button-right">
                     <select onChange={(e) => filterStatut(e)}>
