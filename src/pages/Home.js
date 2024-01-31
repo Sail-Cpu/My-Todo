@@ -21,8 +21,6 @@ const Home = () => {
         filterStatut
     } = useTodos();
 
-    console.log(visibleTask)
-
     return(
         <div className="page home-container">
             <Toaster position="top-right" closeButton richColors/>

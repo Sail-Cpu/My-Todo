@@ -1,4 +1,4 @@
-import {useReducer} from "react";
+import React, {useReducer} from "react";
 
 const allAction = {
     deleteTask: "delete_task",
@@ -95,7 +95,16 @@ function reducer(state, action) {
 }
 
 export function useTodos(){
-    const {deleteTask, checkTask, deleteAllCheckTask, checkAllTasks, deCheckAllTasks, changeStatut, filterStatut, addTask} = allAction;
+    const {
+        deleteTask,
+        checkTask,
+        deleteAllCheckTask,
+        checkAllTasks,
+        deCheckAllTasks,
+        changeStatut,
+        filterStatut,
+        addTask
+    } = allAction;
 
     const [state, dispatch] = useReducer(reducer, {
         filter: "all",
@@ -105,7 +114,7 @@ export function useTodos(){
                 "name": "faire les courses",
                 "isCheck": false,
                 "date": "2024-01-10",
-                "statut": "InProgress"
+                "statut": "ToDo"
             },
             {
                 "id": 2,
