@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
 import {render, unmountComponentAtNode} from "react-dom";
 import { act } from "react-dom/test-utils";
+import '@testing-library/jest-dom';
 //Components
 import Task from '../../components/task/Task';
 import Home from '../../pages/Home';
@@ -33,7 +34,7 @@ const taskData = {
     },
 };
 
-it('should render a task', async () => {
+it('should render a unique task', async () => {
 
 
     // eslint-disable-next-line testing-library/no-unnecessary-act
@@ -93,6 +94,32 @@ describe('should render all task', () => {
         allTasks = container.querySelectorAll(".task-container");
         expect(allTasks.length).toBe(1);
     })
-    it('should')
-})
+    it('should check all tasks, and then delete all the checked tasks', () => {
+        act(() => {
+            render(<Home />, container);
+        })
 
+        const checkAllTaskButton = container.querySelector(".check-all-task-button");
+        let deCheckAllTaskButton = container.querySelector(".de-check-all-task-button");
+        expect(deCheckAllTaskButton).not.toBeInTheDocument();
+        const deleteAllCheckedTaskButton = container.querySelector(".delete-all-check-task-button");
+
+        let allTasks = container.querySelectorAll(".task-container");
+
+        expect(allTasks.length).toBe(3);
+
+        act(() => {
+            fireEvent.click(checkAllTaskButton);
+            fireEvent.click(deleteAllCheckedTaskButton);
+        })
+
+        allTasks = container.querySelectorAll(".task-container");
+
+        deCheckAllTaskButton = container.querySelector(".de-check-all-task-button");
+        expect(deCheckAllTaskButton).toBeInTheDocument();
+
+
+        expect(allTasks.length).toBe(0);
+    })
+
+})

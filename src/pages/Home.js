@@ -29,11 +29,11 @@ const Home = () => {
             </div>
             <div className="home-button-action">
                 <div className="home-button-left">
-                    <button onClick={() => deleteAllCheckTask()}>Delete all check Tasks</button>
+                    <button className="delete-all-check-task-button" onClick={() => deleteAllCheckTask()}>Delete all check Tasks</button>
                     {allTaskIsCheck ?
-                        <button onClick={() => deCheckAllTask()}>De Check all Tasks</button>
+                        <button className="de-check-all-task-button" onClick={() => deCheckAllTask()}>De Check all Tasks</button>
                         :
-                        <button onClick={() => checkAllTask()}>Check all Tasks</button>
+                        <button className="check-all-task-button" onClick={() => checkAllTask()}>Check all Tasks</button>
                     }
                     <button style={{backgroundColor: createTask && '#3b40d5' , color: createTask && 'white'}} onClick={() => setCreateTask(!createTask)}>Add Task</button>
                 </div>
