@@ -34,7 +34,7 @@ const taskData = {
     },
 };
 
-it('should render a unique task', async () => {
+it('Should render a unique task', async () => {
 
 
     // eslint-disable-next-line testing-library/no-unnecessary-act
@@ -57,8 +57,8 @@ it('should render a unique task', async () => {
     expect(container.querySelector(".task-bottom > div").textContent).toBe("31/12/2022");
 });
 
-describe('should render all task', () => {
-    it('should change the Task statut', () => {
+describe('Should render all task', () => {
+    it('Should change the Task statut', () => {
 
         act(() => {
             render(<Home />, container);
@@ -94,7 +94,7 @@ describe('should render all task', () => {
         allTasks = container.querySelectorAll(".task-container");
         expect(allTasks.length).toBe(1);
     })
-    it('should check all tasks, and then delete all the checked tasks', () => {
+    it('Should check all tasks, and then delete all the checked tasks', () => {
         act(() => {
             render(<Home />, container);
         })
@@ -121,5 +121,33 @@ describe('should render all task', () => {
 
         expect(allTasks.length).toBe(0);
     })
+    it('Should create a task', () => {
+        act(() => {
+            render(<Home />, container);
+        })
 
+        const createTask = container.querySelector('.create-task-button');
+
+        act(() => {
+            fireEvent.click(createTask);
+        })
+
+        const titleInput = container.querySelector('.title-input');
+        const dateInput = container.querySelector('.date-input');
+        const taskBonusTitle = container.querySelector('.task-bonus-title');
+        const submitButton = container.querySelector('.create-task-submit-button');
+
+        act(() => {
+            fireEvent.change(titleInput, { target: { value: 'Test Task' } });
+            fireEvent.change(dateInput, { target: { value: '2022-12-31' } });
+            fireEvent.change(taskBonusTitle, { target: { value: 'the bonus' } });
+            fireEvent.click(submitButton);
+        })
+
+        const newTaskTitle = container.querySelector('.task-container .task-title h2');
+        const newTaskBonus = container.querySelector('.task-container .bonus span');
+
+        expect(newTaskTitle.textContent).toBe('Test Task');
+        expect(newTaskBonus.textContent).toBe('the bonus');
+    })
 })

@@ -33,19 +33,19 @@ const CreateTask = (props) => {
             </div>
             <form className="task-container-content" onSubmit={(e) => handleSubmit(e)}>
                 <div className="task-title">
-                    <input type="text" name="title"/>
-                    <select name="statut">
+                    <input className="title-input" type="text" name="title"/>
+                    <select className="statut-input" name="statut">
                         <option value="ToDo">ToDo</option>
                         <option value="InProgress">InProgress</option>
                         <option value="Done">Done</option>
                     </select>
                 </div>
                 <div className="task-bottom">
-                    <input type="date" name="date"/>
-                    <button type="submit">Submit</button>
+                    <input className="date-input" type="date" name="date"/>
+                    <button className="create-task-submit-button" type="submit">Submit</button>
                 </div>
                 <div className="task-bonus">
-                    <input type="text" name="bonus"/>
+                    <input className="task-bonus-title" type="text" name="bonus"/>
                     <Colors color={color} setColor={setColor}/>
                 </div>
             </form>
