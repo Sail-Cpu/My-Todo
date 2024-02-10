@@ -1,28 +1,43 @@
-import React, {useState} from "react";
+import React, {useRef, useState} from "react";
 //Components
 import Colors, {allColors} from "./Colors";
 import {toast} from "sonner";
+import { ITask, IBonus } from "../../interaces/Interfaces";
 
-const CreateTask = (props) => {
+type Props = {
+    addTodo: (title: string, date: Date, statut: string, myBonus?: IBonus) => void
+}
+
+const CreateTask = ({addTodo} : Props) => {
 
     const [color, setColor] = useState(allColors[0]);
+    const formRef = useRef<HTMLFormElement>(null);
 
-    function handleSubmit(e){
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>){
         e.preventDefault();
-        const formData = new FormData(e.target);
-        if(formData.get('date').length === 0){
+        const formData = new FormData(e.currentTarget);
+        const title = formData.get('title') as string;
+        const dateString = formData.get('date') as string;
+        const statut = formData.get('statut') as string;
+        const bonus = formData.get('bonus') || '' as string;
+        if(dateString.length === 0){
             toast.error('The task could not be created', {
                 description: 'A task must have a due date',
             })
             return;
         }
-        if(formData.get('bonus').length > 0){
-            props.addTodo(formData.get('title'), formData.get('date'), formData.get('statut'), formData.get('bonus'), color);
+        const date = new Date(dateString);
+        if(bonus.toString().length > 0){
+            let myBonus = {
+                text: bonus.toString(),
+                color: color
+            }
+            addTodo(title, date, statut, myBonus);
         }else{
-            props.addTodo(formData.get('title'), formData.get('date'), formData.get('statut'));
+            addTodo(title, date, statut);
         }
         toast.success('Task has been created');
-        e.target.reset();
+        formRef.current?.reset();
         setColor(allColors[0]);
     }
 
@@ -31,7 +46,7 @@ const CreateTask = (props) => {
             <div className="task-container-left">
                 <input type="checkbox"/>
             </div>
-            <form className="task-container-content" onSubmit={(e) => handleSubmit(e)}>
+            <form ref={formRef} className="task-container-content" onSubmit={(e) => handleSubmit(e)}>
                 <div className="task-title">
                     <input className="title-input" type="text" name="title"/>
                     <select className="statut-input" name="statut">

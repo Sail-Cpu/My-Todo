@@ -1,4 +1,6 @@
 import React, {useReducer} from "react";
+//Interface
+import {IBonus, ITask} from "../../interaces/Interfaces";
 
 const allAction = {
     deleteTask: "delete_task",
@@ -11,8 +13,33 @@ const allAction = {
     addTask: "add_task"
 }
 
-function reducer(state, action) {
-    const {deleteTask, checkTask, deleteAllCheckTask, checkAllTasks, deCheckAllTasks, changeStatut, filterStatut, addTask} = allAction;
+interface IState {
+    filter: string
+    tasks: ITask[]
+}
+
+// Définir le type pour l'action
+type Action = {
+    type: string,
+    payload?: ITask,
+    statut?: string,
+    title?: string,
+    date?: Date,
+    bonus?: IBonus
+};
+
+function reducer(state: IState, action: Action) {
+    const {
+        deleteTask,
+        checkTask,
+        deleteAllCheckTask,
+        checkAllTasks,
+        deCheckAllTasks,
+        changeStatut,
+        filterStatut,
+        addTask
+    } = allAction;
+
     switch (action.type){
         case deleteTask: {
             return{
@@ -69,22 +96,16 @@ function reducer(state, action) {
             }
         }
         case addTask : {
-            const bonus = action?.bonus ? {
-                "bonus": {
-                    "text": action.bonus,
-                    "color": action.color
-                }
-            } : ""
             return {
                 ...state,
                 tasks: [
                     {
-                        "id": state.tasks.length + 1,
-                        "name": action.title,
-                        "isCheck": false,
-                        "date": action.date,
-                        "statut": action.statut,
-                        bonus
+                        id: state.tasks.length + 1,
+                        name: action.title,
+                        isCheck: false,
+                        date: action.date,
+                        statut: action.statut,
+                        bonus: action.bonus
                     },
                     ...state.tasks
                 ]
@@ -106,36 +127,36 @@ export function useTodos(){
         addTask
     } = allAction;
 
-    const [state, dispatch] = useReducer(reducer, {
+    const [state, dispatch] = useReducer<typeof reducer>(reducer, {
         filter: "all",
         tasks: [
             {
                 "id": 1,
                 "name": "faire les courses",
                 "isCheck": false,
-                "date": "2024-01-10",
+                "date": new Date("2024-01-05"),
                 "statut": "ToDo"
             },
             {
                 "id": 2,
                 "name": "faire la vaiselle",
                 "isCheck": false,
-                "date": "2024-01-05",
+                "date": new Date("2024-01-05"),
                 "statut": "ToDo"
             },
             {
                 "id": 3,
                 "name": "allez au sport",
                 "isCheck": false,
-                "date": "2024-02-02",
+                "date": new Date("2024-01-05"),
                 "statut": "ToDo"
             }
         ]
     });
 
-    const visibleTask = state.filter !== "all" ? state.tasks.filter(task => state.filter === task.statut) : state.tasks
+    const visibleTask = state.filter !== "all" ? state.tasks.filter((task: { statut: string; }) => state.filter === task.statut) : state.tasks
 
-    const allTaskIsCheck = state.tasks.filter(task => task.isCheck === true).length === state.tasks.length;
+    const allTaskIsCheck = state.tasks.filter((task: { isCheck: boolean; }) => task.isCheck).length === state.tasks.length;
 
     return{
         visibleTask: visibleTask,
@@ -143,10 +164,10 @@ export function useTodos(){
         deleteAllCheckTask: () => dispatch({type: deleteAllCheckTask}),
         checkAllTask: () => dispatch({type: checkAllTasks}),
         deCheckAllTask: () => dispatch({type: deCheckAllTasks}),
-        filterStatut: (e) => dispatch( {type: filterStatut, statut: e.target.value }),
-        addTask: (title, date, statut, bonus, color) => dispatch({ type: addTask, title, date, statut, bonus, color}),
-        deleteTask: (task) => dispatch({ type: deleteTask, payload: task}),
-        checkTask: (task) => dispatch({ type: checkTask, payload: task}),
-        changeTaskStatut: (e, task) => dispatch({ type: changeStatut, payload: task, statut: e.target.value})
+        filterStatut: (e: { target: { value: string; }; }) => dispatch( {type: filterStatut, statut: e.target.value }),
+        addTask: (title: string, date: Date, statut: string, bonus: IBonus) => dispatch({ type: addTask, title, date, statut, bonus}),
+        deleteTask: (task: ITask) => dispatch({ type: deleteTask, payload: task}),
+        checkTask: (task: ITask) => dispatch({ type: checkTask, payload: task}),
+        changeTaskStatut: (e: { target: { value: string; }; }, task: ITask) => dispatch({ type: changeStatut, payload: task, statut: e.target.value})
     }
 }

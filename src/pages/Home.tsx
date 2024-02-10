@@ -5,6 +5,7 @@ import Task from "../components/task/Task";
 import CreateTask from "../components/task/CreateTask";
 import TaskDone from "../components/task/TaskDone";
 import { Toaster } from 'sonner';
+import {ITask} from "../interaces/Interfaces";
 const Home = () => {
 
     const [createTask, setCreateTask] = useState(false);
@@ -21,6 +22,8 @@ const Home = () => {
         filterStatut
     } = useTodos();
 
+    console.log(visibleTask);
+
     return(
         <div className="page home-container">
             <Toaster position="top-right" closeButton richColors/>
@@ -35,7 +38,7 @@ const Home = () => {
                         :
                         <button className="check-all-task-button" onClick={() => checkAllTask()}>Check all Tasks</button>
                     }
-                    <button className="create-task-button" style={{backgroundColor: createTask && '#3b40d5' , color: createTask && 'white'}} onClick={() => setCreateTask(!createTask)}>Add Task</button>
+                    <button className="create-task-button" style={{backgroundColor: createTask ? '#3b40d5' : undefined , color: createTask ? 'white' : undefined}} onClick={() => setCreateTask(!createTask)}>Add Task</button>
                 </div>
                 <div className="home-button-right">
                     <select onChange={(e) => filterStatut(e)}>
@@ -51,16 +54,16 @@ const Home = () => {
                     <CreateTask addTodo={addTask}/>
                 }
                 {
-                    visibleTask.map((task, idx) => {
+                    visibleTask.map((task: ITask, idx) => {
                         return(
                             <>
                                 {task.statut !== "Done" &&
                                     <Task
                                         key={idx}
                                         data={task}
-                                        delete={() => deleteTask(task)}
-                                        check={() => checkTask(task)}
-                                        changeStatut={(e) => changeTaskStatut(e, task)}
+                                        deleteTask={deleteTask}
+                                        check={checkTask}
+                                        changeStatut={changeTaskStatut}
                                     />
                                 }
                             </>
@@ -68,14 +71,14 @@ const Home = () => {
                     })
                 }
                 {
-                    visibleTask.map((task, idx) => {
+                    visibleTask.map((task: ITask, idx) => {
                         return(
                             <>
                                 {task.statut === "Done" &&
                                     <TaskDone
                                         key={idx}
                                         data={task}
-                                        check={() => checkTask(task)}
+                                        check={checkTask}
                                         changeStatut={(e) => changeTaskStatut(e, task)}
                                     />
                                 }

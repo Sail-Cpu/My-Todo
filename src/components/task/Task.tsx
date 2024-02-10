@@ -1,12 +1,21 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 //Icons
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+//Interfaces
+import {ITask} from "../../interaces/Interfaces";
 
-const Task = (props) => {
+type Props = {
+    data: ITask,
+    deleteTask: (task: ITask) => void,
+    check: (task: ITask) => void,
+    changeStatut: (event: ChangeEvent<HTMLSelectElement>, task: ITask) => void
+}
 
-    const {name, isCheck, date, statut, bonus} = props.data;
+const Task = ({data, deleteTask, check, changeStatut}: Props) => {
 
-    function isTomorrow(inputDate) {
+    const {name, isCheck, date, statut, bonus} = data;
+
+    function isTomorrow(inputDate: Date) {
         const currentDate = new Date();
         const tomorrowDate = new Date();
         tomorrowDate.setDate(currentDate.getDate() + 1);
@@ -42,12 +51,12 @@ const Task = (props) => {
     return(
         <div className="task-container">
             <div className="task-container-left">
-                <input type="checkbox" onChange={props.check} checked={isCheck}/>
+                <input type="checkbox" onChange={() => check(data)} checked={isCheck}/>
             </div>
             <div className="task-container-content">
                 <div className="task-title">
                     <h2>{name}</h2>
-                    <select value={statut} onChange={(e) => props.changeStatut(e)}>
+                    <select value={statut} onChange={(e) => changeStatut(e, data)}>
                         <option value="ToDo">ToDo</option>
                         <option value="InProgress">InProgress</option>
                         <option value="Done">Done</option>
@@ -57,14 +66,14 @@ const Task = (props) => {
                     <div>
                         {reFormatDate()}
                     </div>
-                    <button onClick={props.delete}>Delete</button>
+                    <button onClick={() => deleteTask(data)}>Delete</button>
                 </div>
-                {bonus?.bonus &&
+                {bonus &&
                     <div className="task-bonus">
                         <div className='bonus'>
-                            <div className="bonus-back" style={{backgroundColor: bonus.bonus.color}}></div>
-                            <div className='bonus-color' style={{backgroundColor: bonus.bonus.color}}></div>
-                            <span style={{color: bonus.bonus.color}}>{bonus.bonus.text}</span>
+                            <div className="bonus-back" style={{backgroundColor: bonus.color}}></div>
+                            <div className='bonus-color' style={{backgroundColor: bonus.color}}></div>
+                            <span style={{color: bonus.color}}>{bonus.text}</span>
                         </div>
                     </div>
                 }

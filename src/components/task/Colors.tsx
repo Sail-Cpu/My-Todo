@@ -9,7 +9,12 @@ export const allColors = [
     "#16A085"
 ]
 
-const Colors = ( {color, setColor} ) => {
+type Props = {
+    color: string,
+    setColor: (color: string) => void
+}
+
+const Colors = ( {color, setColor} : Props ) => {
 
     return(
         <div className="colors-container">
